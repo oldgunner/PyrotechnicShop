@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PyrotechnicShop.Domain.Entities.Pyrotechnics>
+
+@{
+    ViewBag.Title = "Панель администратора: список товаров";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Список пиротехнических изделий</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-right">ID</th>
+                <th>Название</th>
+                <th class="text-right">Цена</th>
+                <th class="text-center">Действия</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-right">@item.PyrotechnicsId</td>
+                    <td>@Html.ActionLink(item.Name, "Edit", new { item.PyrotechnicsId })</td>
+                    <td class="text-right">@item.Price.ToString("# руб")</td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("Delete", "Admin"))
+                        {
+                            @Html.Hidden("PyrotechnicsId", item.PyrotechnicsId)
+                            <input type="submit"
+                                   class="btn btn-default btn-xs"
+                                   value="Удалить" />
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Добавить изделие", "Create",
+            null, new { @class = "btn btn-default" })
+    </div>
+</div>
